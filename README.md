@@ -1,4 +1,4 @@
-# Para empacotar o programa e criar o executável e instalador .msi
+# Para empacotar o programa, criar o executável e instalador .msi
 
 ### Se estiver usando poetry
 #### 📌 Passo 1: Instale o PyInstaller dentro do ambiente Poetry
