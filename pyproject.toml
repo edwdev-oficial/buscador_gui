@@ -1,0 +1,25 @@
+[project]
+name = "buscador-gui"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "edwdev-oficial",email = "edjdevel@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "pyside6 (>=6.9.1,<7.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "buscador_gui", from = "src"}]
+
+[tool.poetry.scripts]
+app = "buscador_gui.main:main"
+
+[tool.poetry.group.dev.dependencies]
+pyinstaller = "^6.14.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Buscador de Projetos" Language="1046" Version="1.0.0"
+           Manufacturer="edwdev" UpgradeCode="e3f7b6c8-7c5f-4b94-b31f-1d6a593fabc0">
+
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+    <MediaTemplate EmbedCab="yes" />
+    <MajorUpgrade DowngradeErrorMessage="Ja existe uma versao mais recente instalada." />
+
+    <Icon Id="AppIcon" SourceFile="icon_white.ico" />
+    <Property Id="ARPPRODUCTICON" Value="AppIcon" />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="BuscadorProjetos">
+          <Component Id="MainExecutable" Guid="9d6b75fe-e002-44b8-8946-10093a5deb7d">
+            <File Id="BuscadorExe" Source="dist\buscador_gui.exe" KeyPath="yes" />
+          </Component>
+
+          <!-- Atalhos -->
+          <Component Id="Shortcuts" Guid="bd3e4b36-53e5-41de-9dd8-769d8f21c68e">
+            <Shortcut Id="StartMenuShortcut"
+                      Directory="ProgramMenuDir"
+                      Name="Buscador de Projetos"
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="AppIcon"
+                      IconIndex="0"
+                      Advertise="no"
+                      Target="[INSTALLFOLDER]buscador_gui.exe"
+                      Description="Abrir o Buscador de Projetos" />
+            
+            <Shortcut Id="DesktopShortcut"
+                      Directory="DesktopFolder"
+                      Name="Buscador de Projetos"
+                      WorkingDirectory="INSTALLFOLDER"
+                      Icon="AppIcon"
+                      IconIndex="0"
+                      Advertise="no"
+                      Target="[INSTALLFOLDER]buscador_gui.exe"
+                      Description="Abrir o Buscador de Projetos" />
+
+            <!-- Correcoes ICE64 -->
+            <RemoveFolder Id="RemoveShortcuts" On="uninstall" />
+            <RemoveFolder Id="RemoveStartMenuFolder" Directory="ProgramMenuDir" On="uninstall" />
+
+            <!-- Chave de registro para controle de instalacao -->
+            <RegistryValue Root="HKCU" Key="Software\BuscadorProjetos" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+
+      <!-- Pasta Menu Iniciar e Area de Trabalho -->
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ProgramMenuDir" Name="Buscador de Projetos" />
+      </Directory>
+      <Directory Id="DesktopFolder" />
+    </Directory>
+
+    <Feature Id="DefaultFeature" Title="Buscador de Projetos" Level="1">
+      <ComponentRef Id="MainExecutable" />
+      <ComponentRef Id="Shortcuts" />
+    </Feature>
+  </Product>
+</Wix>

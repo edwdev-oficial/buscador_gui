@@ -1,0 +1,9 @@
+.venv
+build/
+dist/
+buscador_gui.spec
+test.ipynb
+buscador_gui5.py
+buscador_instalador.msi
+buscador_instalador.wixpdb
+installer.wixobj
