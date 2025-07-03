@@ -31,6 +31,28 @@ class Project:
     def __str__(self):
         return f'{self.name}\n{self.summary}' if self.summary else self.name
 
+def load_projects2(path: Path, padrao='README.md', ingorar={'.venv', '__pycache__', '.git', 'dist', 'build', 'resources'}):
+    projects = []
+    readmes = [
+        d for d in path.rglob(padrao)
+        if not any(part.lower() in ingorar for part in d.parts)
+    ]
+
+    for readme in readmes:
+        path = readme.parent
+        project_name = readme.parent.name
+        summary = ''
+        with readme.open(encoding='utf-8') as f:
+            for i in range(5):
+                linha = f.readline()
+                if not linha:
+                    break
+                summary += f'\n{linha.strip()}'    
+
+        projects.append(Project(project_name, path, summary))
+
+    return projects
+
 def load_projects(base_directory: Path):
     projects = []
     for dir in base_directory.iterdir():
@@ -143,7 +165,7 @@ class MainWindow(QMainWindow):
                 QMessageBox.warning(self, 'Aviso', 'Nenhum diretório foi selecionado. O programa será encerrado.')
 
     def update_projects(self):
-        self.projects = load_projects(self.base_directory)
+        self.projects = load_projects2(self.base_directory)
         self.label_directory.setText(f'📁 Diretório atual: {self.base_directory}')
         self.list_all()
         self.selected_path = None
